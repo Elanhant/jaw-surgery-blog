@@ -1,15 +1,37 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `Jaw Surgery Blog`,
     author: {
-      name: `Kyle Mathews`,
+      name: `Aleksei Ustiuzhanin`,
       summary: `who lives and works in San Francisco building useful things.`,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
-    social: {
-      twitter: `kylemathews`,
-    },
+    siteUrl: `https://jawsurgeryblog.gatsbyjs.io/`,
+    social: {},
+    i18n: [
+      {
+        lang: "EN",
+        siteMetadata: {
+          title: `Jaw Surgery Blog`,
+          author: {
+            name: `Aleksei Ustiuzhanin`,
+            summary: `who lives and works in San Francisco building useful things.`,
+          },
+          description: `A starter blog demonstrating what Gatsby can do.`,
+        },
+      },
+      {
+        lang: "RU",
+        siteMetadata: {
+          title: `Jaw Surgery Blog`,
+          author: {
+            name: `Алексей Устюжанин`,
+            summary: `who lives and works in San Francisco building useful things.`,
+          },
+          description: `A starter blog demonstrating what Gatsby can do.`,
+        },
+      },
+    ],
   },
   plugins: [
     `gatsby-plugin-image`,
@@ -128,5 +150,6 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    `gatsby-plugin-graphql-codegen`,
   ],
 }

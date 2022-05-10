@@ -2,10 +2,10 @@ const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions
+  const { createPage, createRedirect } = actions
 
   // Define a template for blog post
-  const blogPost = path.resolve(`./src/templates/blog-post.js`)
+  const blogPost = path.resolve(`./src/templates/blog-post.tsx`)
 
   // Get all markdown blog posts sorted by date
   const result = await graphql(
@@ -19,6 +19,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             id
             fields {
               slug
+            }
+            frontmatter {
+              lang
             }
           }
         }
@@ -40,10 +43,27 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
   // `context` is available in the template as a prop and as a variable in GraphQL
 
-  if (posts.length > 0) {
-    posts.forEach((post, index) => {
-      const previousPostId = index === 0 ? null : posts[index - 1].id
-      const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
+  const languages = new Set()
+  const postsByLanguage = new Map()
+
+  for (const post of posts) {
+    const lang = post.frontmatter.lang
+
+    languages.add(lang)
+    if (!postsByLanguage.has(lang)) {
+      postsByLanguage.set(lang, [])
+    }
+    postsByLanguage.get(lang).push(post)
+    // postsByLanguage.set(lang, (postsByLanguage.get(lang) ?? []).concat([post]))
+  }
+
+  for (const [lang, postsInLanguage] of postsByLanguage) {
+    postsInLanguage.forEach((post, index) => {
+      const previousPostId = index === 0 ? null : postsInLanguage[index - 1].id
+      const nextPostId =
+        index === postsInLanguage.length - 1
+          ? null
+          : postsInLanguage[index + 1].id
 
       createPage({
         path: post.fields.slug,
@@ -52,8 +72,40 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           id: post.id,
           previousPostId,
           nextPostId,
+          lang,
+          locale: lang.toString(),
+          dateFormat: (() => {
+            switch (lang) {
+              case "EN":
+                return "MMMM DD, YYYY"
+              case "RU":
+                return "D MMMM YYYY"
+            }
+          })(),
         },
       })
+    })
+  }
+
+  const blogHome = path.resolve(`./src/templates/blog-home.tsx`)
+
+  for (const lang of languages) {
+    const langLowerCase = lang.toLowerCase()
+
+    createPage({
+      path: `/${langLowerCase}`,
+      component: blogHome,
+      context: {
+        lang,
+      },
+    })
+
+    createRedirect({
+      fromPath: `/`,
+      toPath: `/${langLowerCase}`,
+      conditions: {
+        language: [langLowerCase],
+      },
     })
   }
 }
@@ -86,6 +138,18 @@ exports.createSchemaCustomization = ({ actions }) => {
       author: Author
       siteUrl: String
       social: Social
+      i18n: [SiteI18nMetadataForLang]
+    }
+
+    type SiteI18nMetadataForLang {
+      lang: Language
+      sitei18nMetadata: SiteI18nMetadata
+    }
+
+    type SiteI18nMetadata {
+      author: Author
+      title: String
+      description: String
     }
 
     type Author {
@@ -102,10 +166,16 @@ exports.createSchemaCustomization = ({ actions }) => {
       fields: Fields
     }
 
+    enum Language {
+      EN
+      RU
+    }
+
     type Frontmatter {
       title: String
       description: String
       date: Date @dateformat
+      lang: Language
     }
 
     type Fields {
