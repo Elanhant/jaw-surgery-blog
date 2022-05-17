@@ -15,9 +15,9 @@ module.exports = {
           title: `Jaw Surgery Blog`,
           author: {
             name: `Aleksei Ustiuzhanin`,
-            summary: `who lives and works in San Francisco building useful things.`,
+            summary: ``,
           },
-          description: `A starter blog demonstrating what Gatsby can do.`,
+          description: `A blog documenting my journey through double jaw surgery.`,
         },
       },
       {
@@ -26,9 +26,9 @@ module.exports = {
           title: `Jaw Surgery Blog`,
           author: {
             name: `Алексей Устюжанин`,
-            summary: `who lives and works in San Francisco building useful things.`,
+            summary: ``,
           },
-          description: `A starter blog demonstrating what Gatsby can do.`,
+          description: `Блог о моем опыте с двухчелюстной остеотомией (операции на обеих челюстях).`,
         },
       },
     ],
@@ -73,12 +73,12 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    // {
-    //   resolve: `gatsby-plugin-google-analytics`,
-    //   options: {
-    //     trackingId: `ADD YOUR TRACKING ID HERE`,
-    //   },
-    // },
+    {
+      resolve: "gatsby-plugin-google-gtag",
+      options: {
+        trackingIds: ["G-YDT5YL9E0F"],
+      },
+    },
     {
       resolve: `gatsby-plugin-feed`,
       options: {

@@ -39,7 +39,7 @@ const Bio: React.FC = () => {
       langSwitcher = <a href={`../ru/`}>Читать на русском</a>
       break
     case "RU":
-      langSwitcher = <a href={`../en/`}>Читать на английском</a>
+      langSwitcher = <a href={`../en/`}>Read in English</a>
       break
     default:
       langSwitcher = null

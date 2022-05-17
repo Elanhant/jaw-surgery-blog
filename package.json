@@ -1,17 +1,19 @@
 {
-  "name": "gatsby-starter-blog",
+  "name": "jaw-surgery-blog",
   "private": true,
-  "description": "A starter for a blog powered by Gatsby and Markdown",
+  "description": "A blog about jaw surgeries powered by Gatsby and Markdown",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Aleksei Ustiuzhanin <elanhant@gmail.com>",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/Elanhant/jaw-surgery-blog/issues"
   },
   "dependencies": {
+    "@fontsource/merriweather": "^4.5.11",
+    "@fontsource/montserrat": "^4.5.10",
     "gatsby": "^4.13.1",
     "gatsby-plugin-feed": "^4.13.0",
     "gatsby-plugin-gatsby-cloud": "^4.13.0",
-    "gatsby-plugin-google-analytics": "^4.13.0",
+    "gatsby-plugin-google-gtag": "^4.14.0",
     "gatsby-plugin-graphql-codegen": "^3.1.1",
     "gatsby-plugin-image": "^2.13.0",
     "gatsby-plugin-manifest": "^4.13.0",
@@ -29,22 +31,20 @@
     "prismjs": "^1.28.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0",
-    "typeface-merriweather": "0.0.72",
-    "typeface-montserrat": "0.0.75"
+    "react-helmet": "^6.1.0"
   },
   "devDependencies": {
     "@types/react-helmet": "^6.1.0",
     "prettier": "^2.6.2"
   },
-  "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
+  "homepage": "https://jawsurgeryblog.gatsbyjs.io/",
   "keywords": [
     "gatsby"
   ],
   "license": "0BSD",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
+    "url": "git+https://github.com/Elanhant/jaw-surgery-blog"
   },
   "scripts": {
     "build": "gatsby build",

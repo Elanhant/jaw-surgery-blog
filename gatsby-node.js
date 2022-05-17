@@ -43,6 +43,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
   // `context` is available in the template as a prop and as a variable in GraphQL
 
+  function getDateFormatForLang(lang) {
+    switch (lang) {
+      case "EN":
+        return "MMMM DD, YYYY"
+      case "RU":
+        return "D MMMM YYYY"
+      default:
+        return "MMMM DD, YYYY"
+    }
+  }
+
   const languages = new Set()
   const postsByLanguage = new Map()
 
@@ -74,14 +85,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           nextPostId,
           lang,
           locale: lang.toString(),
-          dateFormat: (() => {
-            switch (lang) {
-              case "EN":
-                return "MMMM DD, YYYY"
-              case "RU":
-                return "D MMMM YYYY"
-            }
-          })(),
+          dateFormat: getDateFormatForLang(lang),
         },
       })
     })
@@ -97,6 +101,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: blogHome,
       context: {
         lang,
+        locale: lang.toString(),
+        dateFormat: getDateFormatForLang(lang),
       },
     })
 

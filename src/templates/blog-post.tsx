@@ -21,18 +21,21 @@ const BlogPostTemplate: React.FC<
       langSwitcher = <a href={`../ru/`}>читать на русском</a>
       break
     case "RU":
-      langSwitcher = <a href={`../en/`}>читать на английском</a>
+      langSwitcher = <a href={`../en/`}>read in English</a>
       break
     default:
       langSwitcher = null
   }
+
+  const postDescription = post.frontmatter.description
+  const hasDescription = Boolean(postDescription) && postDescription !== ""
 
   return (
     <CurrentLangContext.Provider value={pageContext.lang}>
       <Layout location={location} title={siteTitle}>
         <Seo
           title={post.frontmatter.title}
-          description={post.frontmatter.description || post.excerpt}
+          description={hasDescription ? postDescription : post.excerpt}
         />
         <article
           className="blog-post"
@@ -42,9 +45,13 @@ const BlogPostTemplate: React.FC<
           <header>
             <h1 itemProp="headline">{post.frontmatter.title}</h1>
             <p>
-              {post.frontmatter.date}{" "}
-              {langSwitcher && <small>({langSwitcher})</small>}
+              {post.frontmatter.date} {langSwitcher && <>({langSwitcher})</>}
             </p>
+            {hasDescription && (
+              <p>
+                <em>{postDescription}</em>
+              </p>
+            )}
           </header>
           <section
             dangerouslySetInnerHTML={{ __html: post.html }}

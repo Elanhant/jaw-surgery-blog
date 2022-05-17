@@ -15,10 +15,21 @@ const BlogHome: React.FC<PageProps<BlogHomeQuery, { lang: Language }>> = ({
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const posts = data.allMarkdownRemark.nodes
 
+  let seoTitle = ""
+  switch (pageContext.lang) {
+    case "RU":
+      seoTitle = "Все посты"
+      break
+    case "EN":
+    default:
+      seoTitle = "All posts"
+      break
+  }
+
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <Seo title="All posts" />
+        <Seo title={seoTitle} />
         <Bio />
         <p>
           No blog posts found. Add markdown posts to "content/blog" (or the
@@ -32,7 +43,7 @@ const BlogHome: React.FC<PageProps<BlogHomeQuery, { lang: Language }>> = ({
   return (
     <CurrentLangContext.Provider value={pageContext.lang}>
       <Layout location={location} title={siteTitle}>
-        <Seo title="All posts" />
+        <Seo title={seoTitle} />
         <Bio />
         <ol style={{ listStyle: `none` }}>
           {posts.map(post => {
@@ -74,7 +85,7 @@ const BlogHome: React.FC<PageProps<BlogHomeQuery, { lang: Language }>> = ({
 export default BlogHome
 
 export const pageQuery = graphql`
-  query BlogHome($lang: Language) {
+  query BlogHome($lang: Language, $locale: String, $dateFormat: String) {
     site {
       siteMetadata {
         title
@@ -90,7 +101,7 @@ export const pageQuery = graphql`
           slug
         }
         frontmatter {
-          date(formatString: "MMMM DD, YYYY")
+          date(formatString: $dateFormat, locale: $locale)
           title
           description
         }
